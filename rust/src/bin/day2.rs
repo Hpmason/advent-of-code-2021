@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     print_header(2, 1);
     part1(&commands);
     // Part 2
-    print_header(2, 1);
+    print_header(2, 2);
     part2(&commands);
     Ok(())
 }
