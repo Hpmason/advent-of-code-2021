@@ -1,6 +1,42 @@
 use std::str::FromStr;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
+pub struct Submarine {
+    position: Position,
+    aim: i32,
+}
+impl Submarine {
+    /// Create a new Submarine with default values
+    pub fn new(x: i32, y: i32, aim: i32) -> Self {
+        Self {
+            position: Position::new(x, y),
+            aim,
+        }
+    }
+    /// Go forward, increasing horizontal position and modifying aim
+    pub fn forward(&mut self, magnitude: i32) {
+        self.position.x += magnitude;
+        self.position.y += self.aim * magnitude;
+    }
+    /// Go up, decreasing aim
+    pub fn up(&mut self, magnitude: i32) {
+        self.aim -= magnitude;
+    }
+    /// Go down, increasing aim
+    pub fn down(&mut self, magnitude: i32) {
+        self.aim += magnitude;
+    }
+    /// Get position
+    pub fn get_pos(&self) -> Position {
+        self.position
+    }
+    /// Get aim
+    pub fn get_aim(&self) -> i32 {
+        self.aim
+    }
+}
+
+#[derive(Debug, Clone, Copy, Default)]
 pub struct Position {
     pub x: i32,
     pub y: i32,
