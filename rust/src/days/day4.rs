@@ -1,4 +1,4 @@
-use std::{path::Path, fs::File, io::{self, Read}, fmt::Display, borrow::Borrow};
+use std::{path::Path, fs::File, io::{self, Read}, fmt::Display};
 
 
 #[derive(Debug, Clone)]
@@ -130,10 +130,7 @@ pub fn run_through_bingo_game(bingo_info: &BingoInfo) -> Option<WinningResults> 
         let new_number = info.pull_next();
         println!("Pulled number: {}", new_number);
         info.apply_number(new_number);
-        // for board in &info.boards {
-        //     println!("Board:\n{}", board);
-        // }
-        // While check
+
         if let Some(win_board) = info.did_any_board_win() {
             return Some(WinningResults {
                 board: win_board, 
