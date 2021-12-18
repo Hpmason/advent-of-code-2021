@@ -1,10 +1,11 @@
 use std::{path::Path, fs::File, io::{self, Read}, fmt::Display};
 
-
+type DidJustWin = bool;
 #[derive(Debug, Clone)]
 pub struct BingoBoard {
     pub board: Vec<u8>, 
     pub marked: [bool; 5*5],
+    pub is_completed: bool,
 }
 
 impl BingoBoard {
@@ -26,14 +27,21 @@ impl BingoBoard {
             })
             .sum()
     }
-    pub fn apply_number(&mut self, num: u8) {
+    /// Mark number on board if board is not already completed and check/update win status
+    pub fn apply_number(&mut self, num: u8) -> DidJustWin {
+        if self.is_completed {
+            return false;
+        }
         for i in 0..25 {
             if self.board[i] == num {
                 self.marked[i] = true;
             }
         }
+        self.is_completed = self.did_win();
+        self.is_completed
     }
-    pub fn did_win(&self) -> bool {
+
+    fn did_win(&self) -> bool {
         // Check all Columns
         for i in 0..5 {
             if  self.marked_at(i, 0) && 
@@ -83,6 +91,7 @@ pub struct BingoInfo {
     pub current_number_idx: usize,
     numbers: Vec<u8>,
     boards: Vec<BingoBoard>,
+    completed_board_idxes: Vec<usize>,
 }
 
 impl BingoInfo {
@@ -91,6 +100,7 @@ impl BingoInfo {
             current_number_idx: 0,
             numbers, 
             boards,
+            completed_board_idxes: Vec::new(),
         }
     }
     pub fn remaining_numbers(&self) -> usize {
@@ -105,8 +115,13 @@ impl BingoInfo {
         num
     }
     pub fn apply_number(&mut self, num: u8) {
-        self.boards.iter_mut().for_each(|board| {
-            board.apply_number(num)
+        self.boards.iter_mut().enumerate().for_each(|(i, board)| {
+            let did_just_win = board.apply_number(num);
+            if did_just_win {
+                self.completed_board_idxes.push(i);
+                
+            }
+            
         });
     }
     pub fn did_any_board_win(&self) -> Option<BingoBoard> {
@@ -114,6 +129,22 @@ impl BingoInfo {
             if board.did_win() {
                 return Some(board.clone());
             }
+        }
+        None
+    }
+    pub fn num_unsolved_boards(&self) -> usize {
+        self.boards.len() - self.completed_board_idxes.len()
+    }
+    pub fn num_solved_boards(&self) -> usize {
+        self.completed_board_idxes.len()
+    }
+    /// Filters out completed boards and returns the first board left
+    pub fn get_last_completed_board(&self) -> Option<BingoBoard> {
+        if let Some(&last_idx) = self.completed_board_idxes.last() {
+            if let Some(board) = self.boards.get(last_idx) {
+                return Some(board.clone())
+            }
+            println!("Idx is not valid for the board vec: {}", last_idx);
         }
         None
     }
@@ -128,7 +159,6 @@ pub fn run_through_bingo_game(bingo_info: &BingoInfo) -> Option<WinningResults> 
     let mut info = bingo_info.clone();
     loop {
         let new_number = info.pull_next();
-        println!("Pulled number: {}", new_number);
         info.apply_number(new_number);
 
         if let Some(win_board) = info.did_any_board_win() {
@@ -143,6 +173,22 @@ pub fn run_through_bingo_game(bingo_info: &BingoInfo) -> Option<WinningResults> 
     }
 }
 
+pub fn run_through_game_until_last_board(bingo_info: &BingoInfo) -> Option<WinningResults> {
+    let mut info = bingo_info.clone();
+    loop {
+        let new_number = info.pull_next();
+        info.apply_number(new_number);
+
+        if info.num_unsolved_boards() == 0 {
+            if let Some(board) = info.get_last_completed_board() {
+                return Some(WinningResults { board: board.clone(), last_num_called: info.get_last_number_called() });
+            }
+        }
+        if info.remaining_numbers() == 0 {
+            return None;
+        }
+    }
+}
 
 pub fn parse_bingo_boards<P: AsRef<Path>>(file_path: P) -> Result<BingoInfo, io::Error> {
     // Open file and read to string
@@ -170,7 +216,7 @@ pub fn parse_bingo_boards<P: AsRef<Path>>(file_path: P) -> Result<BingoInfo, io:
         .flatten()
         .collect::<Vec<u8>>()
         .chunks_exact(25)// 5 lines per bingo board  
-        .map(|board| BingoBoard{ board: board.to_vec(), marked: [false; 25] })
+        .map(|board| BingoBoard{ board: board.to_vec(), marked: [false; 25], is_completed: false })
         .collect();
     
     Ok(BingoInfo::new(numbers, boards))
