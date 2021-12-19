@@ -1,4 +1,10 @@
-use advent_of_code_2021::{io::{read_input_file, print_header}, day1::{part1::{compare_depths, get_depth_increases}, part2::{calculate_depth_sums}}};
+use advent_of_code_2021::{
+    day1::{
+        part1::{compare_depths, get_depth_increases},
+        part2::calculate_depth_sums,
+    },
+    io::{print_header, read_input_file},
+};
 
 const PUZZLE_ONE_FILE: &str = "data/first.txt";
 
@@ -10,17 +16,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     print_header(1, 1);
     part1(&depths);
     print_header(1, 2);
-    part2(&depths);    
+    part2(&depths);
 
     Ok(())
 }
 
 fn part1(depths: &Vec<u32>) {
     println!("Comparing {} depths from file", depths.len());
-    let depth_diffs =  compare_depths(&depths);
+    let depth_diffs = compare_depths(&depths);
     // Find total number of increases in depth
     let total_increases = get_depth_increases(&depth_diffs);
-    println!("Total number of increases vs decreased: {}", total_increases);
+    println!(
+        "Total number of increases vs decreased: {}",
+        total_increases
+    );
 }
 
 fn part2(depths: &Vec<u32>) {

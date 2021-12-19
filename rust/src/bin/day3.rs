@@ -1,4 +1,7 @@
-use advent_of_code_2021::{io::{print_header, read_input_file}, day3::{count_number_of_ones, get_co2_scrubber_rating, get_oxygen_generator_rating}};
+use advent_of_code_2021::{
+    day3::{count_number_of_ones, get_co2_scrubber_rating, get_oxygen_generator_rating},
+    io::{print_header, read_input_file},
+};
 
 const PUZZLE_DATA: &str = "data/third.txt";
 
@@ -31,7 +34,7 @@ fn part1(data: &Vec<String>) {
     // Get mask of with all 1s in pos 0..size-1
     let xor_mask = (1 << size_of_word) - 1;
     // Flip all 5 bits to get least common bits
-    let epsilon =  gamma ^ xor_mask;
+    let epsilon = gamma ^ xor_mask;
     println!("Gamma = {:05b}", gamma);
     println!("Epsilon = {:05b}", epsilon);
     println!("Gamma * Epsilon = {}", gamma * epsilon);

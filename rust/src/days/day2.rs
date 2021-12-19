@@ -62,7 +62,10 @@ impl FromStr for Command {
         let direction = split[0].parse()?;
         let magnitude = split[1].parse()?;
 
-        Ok(Self {direction, magnitude})
+        Ok(Self {
+            direction,
+            magnitude,
+        })
     }
 }
 

@@ -1,4 +1,7 @@
-use advent_of_code_2021::{day2::{Command, Position, Direction, Submarine}, io::{print_header, read_input_file}};
+use advent_of_code_2021::{
+    day2::{Command, Direction, Position, Submarine},
+    io::{print_header, read_input_file},
+};
 
 const PUZZLE_DATA: &str = "data/second.txt";
 
@@ -25,7 +28,12 @@ fn part1(commands: &Vec<Command>) {
         }
     }
     println!("Final position: (x: {}, y: {})", position.x, position.y);
-    println!("{} * {} = {}", position.x, position.y, position.x * position.y);
+    println!(
+        "{} * {} = {}",
+        position.x,
+        position.y,
+        position.x * position.y
+    );
 }
 
 fn part2(commands: &Vec<Command>) {
@@ -37,6 +45,15 @@ fn part2(commands: &Vec<Command>) {
             Direction::Down => sub.down(command.magnitude),
         }
     }
-    println!("Final position: (x: {}, y: {})", sub.get_pos().x, sub.get_pos().y);
-    println!("{} * {} = {}", sub.get_pos().x, sub.get_pos().y, sub.get_pos().x * sub.get_pos().y);
+    println!(
+        "Final position: (x: {}, y: {})",
+        sub.get_pos().x,
+        sub.get_pos().y
+    );
+    println!(
+        "{} * {} = {}",
+        sub.get_pos().x,
+        sub.get_pos().y,
+        sub.get_pos().x * sub.get_pos().y
+    );
 }
