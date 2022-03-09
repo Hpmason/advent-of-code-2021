@@ -36,10 +36,7 @@ impl LanternFishTracker {
     pub fn step_one_day(&mut self) {
         // Get number at index 0
         let new_fish = self.0.first().unwrap().clone();
-        // Shift all values to the left, except for the first
-        for i in 0..(self.0.len() - 1) {
-            self.0[i] = self.0[i + 1];
-        }
+        self.0.rotate_left(1);
         // New duplicated fish start with a countdown of 8
         self.0[8] = new_fish;
         // Original fish that duplicated reset back to 6 
