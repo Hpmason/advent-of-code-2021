@@ -18,7 +18,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn part1(commands: &Vec<Command>) {
+fn part1(commands: &[Command]) {
     let mut position = Position::default();
     for command in commands {
         match command.direction {
@@ -36,7 +36,7 @@ fn part1(commands: &Vec<Command>) {
     );
 }
 
-fn part2(commands: &Vec<Command>) {
+fn part2(commands: &[Command]) {
     let mut sub = Submarine::default();
     for command in commands {
         match command.direction {

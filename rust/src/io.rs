@@ -1,11 +1,11 @@
 use std::{fs::File, io::Read, path::Path, str::FromStr};
 
 pub fn print_header(day: usize, part: usize) {
-    println!("");
+    println!();
     println!("=================================");
     println!("= Advent of Code Day {:02} Part {:02} =", day, part);
     println!("=================================");
-    println!("");
+    println!();
 }
 
 /// Expects path to a file with elements seperated by only new lines
@@ -18,7 +18,7 @@ pub fn read_input_file<T: FromStr>(file_path: impl AsRef<Path>) -> Result<Vec<T>
     let vec = data
         .lines()
         .map(|line| line.parse::<T>())
-        .flat_map(|t| t)
+        .flatten()
         .collect();
     // Return vec of T
     Ok(vec)
@@ -31,9 +31,9 @@ pub fn read_comma_seperated_file<T: FromStr>(file_path: impl AsRef<Path>) -> Res
     f.read_to_string(&mut data)?;
     // Lines to a Vec of elements of type T (Flattening parse result)
     let vec = data
-        .split(",")
+        .split(',')
         .map(|line| line.parse::<T>())
-        .flat_map(|t| t)
+        .flatten()
         .collect();
     // Return vec of T
     Ok(vec)

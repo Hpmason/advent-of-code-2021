@@ -1,4 +1,4 @@
-pub fn count_number_of_ones(arr_of_words: &Vec<String>) -> Vec<i32> {
+pub fn count_number_of_ones(arr_of_words: &[String]) -> Vec<i32> {
     let size_of_word = arr_of_words[0].len();
     arr_of_words
         .iter()
@@ -19,9 +19,9 @@ pub fn count_number_of_ones(arr_of_words: &Vec<String>) -> Vec<i32> {
         })
 }
 
-pub fn get_oxygen_generator_rating(arr_of_words: &Vec<String>) -> u32 {
-    let mut counts = count_number_of_ones(&arr_of_words);
-    let mut arr_copy = arr_of_words.clone();
+pub fn get_oxygen_generator_rating(arr_of_words: &[String]) -> u32 {
+    let mut counts = count_number_of_ones(arr_of_words);
+    let mut arr_copy = arr_of_words.to_owned();
     let mut pos = 0;
     loop {
         arr_copy = arr_copy
@@ -43,9 +43,9 @@ pub fn get_oxygen_generator_rating(arr_of_words: &Vec<String>) -> u32 {
     }
 }
 
-pub fn get_co2_scrubber_rating(arr_of_words: &Vec<String>) -> u32 {
-    let mut counts = count_number_of_ones(&arr_of_words);
-    let mut arr_copy = arr_of_words.clone();
+pub fn get_co2_scrubber_rating(arr_of_words: &[String]) -> u32 {
+    let mut counts = count_number_of_ones(arr_of_words);
+    let mut arr_copy = arr_of_words.to_owned();
     let mut pos = 0;
     loop {
         arr_copy = arr_copy

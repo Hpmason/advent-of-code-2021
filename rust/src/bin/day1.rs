@@ -21,9 +21,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn part1(depths: &Vec<u32>) {
+fn part1(depths: &[u32]) {
     println!("Comparing {} depths from file", depths.len());
-    let depth_diffs = compare_depths(&depths);
+    let depth_diffs = compare_depths(depths);
     // Find total number of increases in depth
     let total_increases = get_depth_increases(&depth_diffs);
     println!(
@@ -32,10 +32,10 @@ fn part1(depths: &Vec<u32>) {
     );
 }
 
-fn part2(depths: &Vec<u32>) {
+fn part2(depths: &[u32]) {
     // Get sums of 3s
     println!("Calculating sums of 3 long windows");
-    let depth_sums = calculate_depth_sums(&depths);
+    let depth_sums = calculate_depth_sums(depths);
 
     println!("Comparing Depths of {} windows", depth_sums.len());
     let depth_diffs = compare_depths(&depth_sums);

@@ -58,7 +58,7 @@ impl FromStr for Command {
     type Err = Box<dyn std::error::Error>;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let split: Vec<&str> = s.split(" ").collect();
+        let split: Vec<&str> = s.split(' ').collect();
         let direction = split[0].parse()?;
         let magnitude = split[1].parse()?;
 

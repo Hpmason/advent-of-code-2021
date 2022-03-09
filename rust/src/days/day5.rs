@@ -15,7 +15,7 @@ impl FromStr for Point {
     type Err = Box<dyn std::error::Error>;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let points_str: Vec<&str> = s.split(",").collect();
+        let points_str: Vec<&str> = s.split(',').collect();
         let x = points_str[0].parse()?;
         let y = points_str[1].parse()?;
 
@@ -176,7 +176,7 @@ impl fmt::Display for Grid {
                     write!(f, "{}", cell)?;
                 }
             }   
-            write!(f, "\n")?;
+            writeln!(f)?;
         }
         Ok(())
         

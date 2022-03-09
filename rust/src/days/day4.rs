@@ -190,7 +190,7 @@ pub fn run_through_game_until_last_board(bingo_info: &BingoInfo) -> Option<Winni
         if info.num_unsolved_boards() == 0 {
             if let Some(board) = info.get_last_completed_board() {
                 return Some(WinningResults {
-                    board: board.clone(),
+                    board,
                     last_num_called: info.get_last_number_called(),
                 });
             }
@@ -210,17 +210,17 @@ pub fn parse_bingo_boards<P: AsRef<Path>>(file_path: P) -> Result<BingoInfo, io:
     let mut lines = data.lines();
     let first_line = lines.next().unwrap();
     let numbers = first_line
-        .split(",")
+        .split(',')
         .flat_map(|s| s.parse::<u8>())
         .collect();
     let boards = lines
         .filter_map(|line| {
             // If empty, don't bother parsing
             if line.is_empty() {
-                return None;
+                None
             } else {
                 Some(
-                    line.split(" ")
+                    line.split(' ')
                         .filter_map(|e| e.parse::<u8>().ok())
                         .collect::<Vec<u8>>(),
                 )

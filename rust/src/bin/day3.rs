@@ -19,9 +19,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn part1(data: &Vec<String>) {
+fn part1(data: &[String]) {
     let size_of_word = data[0].len();
-    let bit_counts = count_number_of_ones(&data);
+    let bit_counts = count_number_of_ones(data);
     println!("Bits: {:?}", bit_counts);
     // Calculate half of total length
     let mut gamma = 0;
@@ -40,10 +40,10 @@ fn part1(data: &Vec<String>) {
     println!("Gamma * Epsilon = {}", gamma * epsilon);
 }
 
-fn part2(data: &Vec<String>) {
-    let o2_rating = get_oxygen_generator_rating(&data);
+fn part2(data: &[String]) {
+    let o2_rating = get_oxygen_generator_rating(data);
     println!("O2 rating = {}", o2_rating);
-    let co2_rating = get_co2_scrubber_rating(&data);
+    let co2_rating = get_co2_scrubber_rating(data);
     println!("CO2 rating = {}", co2_rating);
 
     let life_support_rating = o2_rating * co2_rating;

@@ -13,7 +13,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     print_header(6, 1);
     part1(tracker.clone());
     print_header(6, 2);
-    part2(tracker.clone());
+    part2(tracker);
 
     Ok(())
 }

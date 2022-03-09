@@ -16,7 +16,7 @@ impl LanternFishTracker {
         f.read_to_string(&mut data)?;
         // Lines to a Vec of elements of type T (Flattening parse result)
         let mut tracker = Self::new();
-        for fish in data.split(",") {
+        for fish in data.split(',') {
             let i = fish.parse::<usize>().unwrap();
             tracker.0[i] += 1;
         }
@@ -35,7 +35,7 @@ impl LanternFishTracker {
     /// Modifies Vec in place
     pub fn step_one_day(&mut self) {
         // Get number at index 0
-        let new_fish = self.0.first().unwrap().clone();
+        let new_fish = *self.0.first().unwrap();
         self.0.rotate_left(1);
         // New duplicated fish start with a countdown of 8
         self.0[8] = new_fish;
@@ -43,7 +43,12 @@ impl LanternFishTracker {
         self.0[6] += new_fish;
     }
     pub fn num_fish(self) -> LanternFish {
-        self.0.clone().into_iter().sum()
+        self.0.clone().iter().sum()
+    }
+}
+impl Default for LanternFishTracker {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
